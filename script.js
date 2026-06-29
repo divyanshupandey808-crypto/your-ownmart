@@ -1,59 +1,36 @@
 const productContainer = document.getElementById("productContainer");
 const searchInput = document.getElementById("searchInput");
-const categoryButtons = document.querySelectorAll(".categories button");
 
-let currentCategory = "all";
+function addToCart(product){
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+cart.push(product);
+localStorage.setItem("cart", JSON.stringify(cart));
+alert("Added to cart!");
+}
 
-// Products Show Function
-function displayProducts(productList) {
+function displayProducts(list){
 
 productContainer.innerHTML = "";
 
-if(productList.length === 0){
-
-productContainer.innerHTML = `
-<div class="no-product">
-<h2>No Products Found</h2>
-</div>
-`;
-
-return;
-
-}
-
-productList.forEach(product => {
+list.forEach(p => {
 
 const card = document.createElement("div");
-
 card.className = "product-card";
 
 card.innerHTML = `
-
-<div class="product-image">
-
-<img src="${product.image}" alt="${product.code}">
-
-</div>
-
-<div class="product-info">
-
-<h3 class="product-name">${product.category.toUpperCase()}</h3>
-
-<p class="product-code">${product.code}</p>
-
-<button class="add-cart">
-View Product
-</button>
-
-</div>
-
+<img src="${p.image}">
+<h3>${p.code}</h3>
+<p>${p.category}</p>
+<button class="btn">Add To Cart</button>
 `;
 
-card.addEventListener("click",()=>{
+card.addEventListener("click", () => {
+window.location.href = `product.html?code=${p.code}`;
+});
 
-window.location.href=
-`product.html?code=${product.code}`;
-
+card.querySelector(".btn").addEventListener("click", (e) => {
+e.stopPropagation();
+addToCart(p);
 });
 
 productContainer.appendChild(card);
@@ -61,69 +38,16 @@ productContainer.appendChild(card);
 });
 
 }
-// ===========================
-// Live Search
-// ===========================
-
-searchInput.addEventListener("keyup", () => {
-
-const searchValue = searchInput.value.toLowerCase();
-
-const filteredProducts = products.filter(product => {
-
-return (
-
-product.code.toLowerCase().includes(searchValue) ||
-
-product.category.toLowerCase().includes(searchValue)
-
-);
-
-});
-
-displayProducts(filteredProducts);
-
-});
-
-
-// ===========================
-// Category Filter
-// ===========================
-
-categoryButtons.forEach(button => {
-
-button.addEventListener("click", () => {
-
-categoryButtons.forEach(btn => {
-
-btn.classList.remove("active");
-
-});
-
-button.classList.add("active");
-
-const category = button.dataset.category;
-
-if(category === "all"){
 
 displayProducts(products);
 
-return;
+searchInput.addEventListener("input", (e) => {
+const val = e.target.value.toLowerCase();
 
-}
-
-const filteredProducts = products.filter(product =>
-
-product.category === category
-
+const filtered = products.filter(p =>
+p.code.toLowerCase().includes(val) ||
+p.category.toLowerCase().includes(val)
 );
 
-displayProducts(filteredProducts);
-
+displayProducts(filtered);
 });
-
-});
-
-// Default Load
-
-displayProducts(products);
