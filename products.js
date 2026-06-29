@@ -3,25 +3,25 @@ const products = [
 {
   code: "YOM001",
   category: "women",
-  image: "images/yom001.jpg"
+  image: "yom001.jpg"
 },
 
 {
   code: "YOM002",
   category: "women",
-  image: "images/yom002.jpg"
+  image: "yom002.jpg"
 },
 
 {
   code: "YOM003",
   category: "women",
-  image: "images/yom003.jpg"
+  image: "yom003.jpg"
 },
 
 {
   code: "YOM004",
   category: "women",
-  image: "images/yom004.jpg"
+  image: "yom004.jpg"
 },
 
 {
