@@ -1479,4 +1479,5 @@ const products = [
   code: "YOM250",
   category: "perfume",
   image: "images/yom250.jpg"
-},
+}
+];
